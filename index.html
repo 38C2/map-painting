@@ -1,0 +1,103 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>地图填色</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="toolbar">
+      <div>
+        <p class="eyebrow">Step 1</p>
+        <h1>点击填色</h1>
+        <!-- <p class="toolbar-copy">先选颜色，再点击地图上的国家区域填色。</p> -->
+      </div>
+
+      <section class="panel">
+        <h2>颜色</h2>
+        <div id="paint-tools" class="paint-tools" aria-label="填色工具"></div>
+        <div id="color-palette" class="palette" aria-label="颜色选择"></div>
+      </section>
+
+      <section class="panel">
+        <h2>当前颜色</h2>
+        <div class="current-color-row">
+          <span id="current-color-chip" class="current-color-chip" aria-hidden="true"></span>
+          <span id="current-color-label" class="current-color-label"></span>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>缩放</h2>
+        <div class="zoom-controls">
+          <input
+            id="zoom-slider"
+            class="zoom-slider"
+            type="range"
+            min="50"
+            max="500"
+            value="100"
+            aria-label="地图缩放"
+          >
+          <div class="zoom-meta">
+            <p id="zoom-label" class="zoom-label">100%</p>
+            <button id="zoom-reset-button" class="tool-button zoom-reset-button" type="button">重置缩放</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>导出</h2>
+        <button id="export-jpg-button" class="tool-button" type="button">保存 JPG</button>
+      </section>
+
+      <section class="panel">
+        <div class="toolbar-section-heading">
+          <h2>图例设置</h2>
+          <label class="toolbar-toggle">
+            <input id="legend-plain-toggle" type="checkbox">
+            <span>隐藏底板</span>
+          </label>
+        </div>
+        <div class="legend-size-controls">
+          <label class="legend-size-label" for="legend-font-size-slider">图例字号</label>
+          <div class="legend-size-row">
+            <input
+              id="legend-font-size-slider"
+              class="legend-size-slider"
+              type="range"
+              min="12"
+              max="28"
+              step="1"
+              value="13"
+              aria-label="图例字号"
+            >
+            <span id="legend-font-size-value" class="legend-size-value">13px</span>
+          </div>
+        </div>
+        <div id="legend-editor-root" class="legend-editor-list" aria-label="图例文本编辑"></div>
+      </section>
+
+      <p id="status" class="status">正在加载地图…</p>
+    </aside>
+
+    <main class="map-stage">
+      <div id="map-export-root" class="map-frame">
+        <section id="map-legend" class="map-legend" aria-label="地图图例">
+          <div id="map-legend-frame" class="map-legend-frame"></div>
+          <div class="map-legend__body">
+            <div id="legend-root" class="legend-list"></div>
+          </div>
+        </section>
+
+        <div id="map-container" class="map-container" aria-label="世界地图"></div>
+      </div>
+    </main>
+  </div>
+
+  <script src="./legend.js"></script>
+  <script src="./script.js"></script>
+</body>
+</html>
