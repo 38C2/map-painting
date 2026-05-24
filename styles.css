@@ -114,6 +114,15 @@ h2 {
   gap: 10px;
 }
 
+.palette-item {
+  position: relative;
+  min-width: 0;
+}
+
+.palette-item .color-swatch {
+  width: 100%;
+}
+
 .paint-tools {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -153,6 +162,89 @@ h2 {
 .color-swatch.is-active {
   border-color: #1f1a15;
   box-shadow: 0 0 0 3px rgba(31, 26, 21, 0.12);
+}
+
+.color-swatch--add {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.85);
+  font-size: 28px;
+  line-height: 1;
+}
+
+.palette-remove-button {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 20px;
+  height: 20px;
+  border: 1px solid rgba(31, 26, 21, 0.18);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+  color: #1f1a15;
+  cursor: pointer;
+  font: inherit;
+  line-height: 1;
+  padding: 0;
+}
+
+.palette-remove-button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.palette-add-panel {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.palette-add-panel__title {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.palette-add-panel__list {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.palette-add-option {
+  appearance: none;
+  border: 1px solid rgba(31, 26, 21, 0.14);
+  height: 34px;
+  cursor: pointer;
+}
+
+.palette-add-option.is-disabled,
+.palette-add-option:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.palette-custom-row {
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr);
+  gap: 10px;
+}
+
+.palette-custom-color-input {
+  width: 52px;
+  height: 42px;
+  padding: 0;
+  border: 1px solid rgba(31, 26, 21, 0.14);
+  background: transparent;
+  cursor: pointer;
+}
+
+.palette-custom-add-button {
+  width: 100%;
 }
 
 .current-color-row {

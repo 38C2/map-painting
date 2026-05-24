@@ -1,13 +1,3 @@
-// 工具栏里可选的颜色。后面如果你想改颜色，先改这里即可。
-const palette = [
-  { name: "珊瑚红", value: "#d96c5f" },
-  { name: "琥珀黄", value: "#d8a739" },
-  { name: "松石绿", value: "#4f9d7a" },
-  { name: "湖蓝", value: "#4b86c5" },
-  { name: "深紫灰", value: "#756783" },
-  { name: "石墨黑", value: "#4c4c52" }
-];
-
 const defaultCountryFill = "#e8e1d5";
 const countryStroke = "#2b2b2b";
 const mapSvgPath = "./worldmap-done.svg";
@@ -20,13 +10,14 @@ const TOOL_PAINT = "paint";
 const TOOL_ERASE = "erase";
 const TOOL_DRAG = "drag";
 
-// 当前正在使用的颜色，默认取色板第一个。
-let activeColor = palette[0];
+// 当前正在使用的颜色，由 palette manager 统一管理。
+let activeColor = null;
 let activeTool = TOOL_PAINT;
 let mapScale = 1;
 let currentSvgRoot = null;
 let paintToolButton;
 let eraseToolButton;
+let clearAllToolButton;
 let dragToolButton;
 let isDraggingMap = false;
 let dragStartX = 0;
@@ -59,6 +50,23 @@ const zoomResetButtonEl = document.getElementById("zoom-reset-button");
 const zoomLabelEl = document.getElementById("zoom-label");
 const exportJpgButtonEl = document.getElementById("export-jpg-button");
 
+const paletteManager = createPaletteManager({
+  paletteEl,
+  onActiveColorChange(color) {
+    activeColor = color;
+    updateCurrentColor();
+
+    if (activeTool === TOOL_PAINT) {
+      updateToolStatus();
+    }
+
+    refreshLegend();
+  },
+  onPaletteChange() {
+    refreshLegend();
+  },
+});
+
 const legendManager = createLegendManager({
   mapLegendEl,
   mapLegendFr,
@@ -71,8 +79,9 @@ const legendManager = createLegendManager({
 
 // 页面启动后，先生成色板，再显示当前颜色，最后从文件加载地图。
 renderTools();
-renderPalette();
+activeColor = paletteManager.getActiveColor();
 updateCurrentColor();
+updateToolStatus();
 initZoomControls();
 bindDragInteractions();
 bindExportActions();
@@ -117,6 +126,11 @@ function renderTools() {
   eraseButton.className = "tool-button";
   eraseButton.textContent = "擦除";
 
+  const clearAllButton = document.createElement("button");
+  clearAllButton.type = "button";
+  clearAllButton.className = "tool-button";
+  clearAllButton.textContent = "清空";
+
   const dragButton = document.createElement("button");
   dragButton.type = "button";
   dragButton.className = "tool-button";
@@ -124,6 +138,7 @@ function renderTools() {
 
   paintToolButton = paintButton;
   eraseToolButton = eraseButton;
+  clearAllToolButton = clearAllButton;
   dragToolButton = dragButton;
 
   paintButton.addEventListener("click", () => {
@@ -136,6 +151,10 @@ function renderTools() {
     updateToolStatus();
   });
 
+  clearAllButton.addEventListener("click", () => {
+    clearAllPaint();
+  });
+
   dragButton.addEventListener("click", () => {
     setActiveTool(TOOL_DRAG);
     updateToolStatus();
@@ -143,49 +162,27 @@ function renderTools() {
 
   paintToolsEl.appendChild(paintButton);
   paintToolsEl.appendChild(eraseButton);
+  paintToolsEl.appendChild(clearAllButton);
   mapToolsEl.appendChild(dragButton);
-}
-
-function renderPalette() {
-  palette.forEach((color, index) => {
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = "color-swatch";
-    button.style.backgroundColor = color.value;
-    button.title = color.name;
-    button.setAttribute("aria-label", `选择颜色：${color.name}`);
-
-    if (index === 0) {
-      button.classList.add("is-active");
-    }
-
-    button.addEventListener("click", () => {
-      // 点击色块后，只更新“当前选中的颜色”，还不会立刻改地图。
-      activeColor = color;
-      setActiveTool(TOOL_PAINT);
-      updateCurrentColor();
-      updateToolStatus();
-
-      // 先清掉其他按钮的选中态，再把当前按钮设为选中。
-      document
-        .querySelectorAll(".color-swatch")
-        .forEach((item) => item.classList.remove("is-active"));
-      button.classList.add("is-active");
-    });
-
-    paletteEl.appendChild(button);
-  });
 }
 
 function updateCurrentColor() {
   // 左侧“当前颜色”那一行，只是做界面同步显示。
+  if (!activeColor) {
+    currentColorChipEl.style.backgroundColor = "#ffffff";
+    currentColorLabelEl.textContent = "";
+    return;
+  }
+
   currentColorChipEl.style.backgroundColor = activeColor.value;
   currentColorLabelEl.textContent = `${activeColor.name} ${activeColor.value}`;
 }
 
 function refreshLegend() {
   const usedColorValues = new Set(paintedCountries.values());
-  const usedColors = palette.filter((color) => usedColorValues.has(color.value));
+  const usedColors = paletteManager
+    .getPalette()
+    .filter((color) => usedColorValues.has(color.value));
   legendManager.render(usedColors);
 }
 
@@ -292,6 +289,24 @@ function stopMapDragging() {
 
   isDraggingMap = false;
   mapContainerEl.classList.remove("is-dragging");
+}
+
+function clearAllPaint() {
+  if (!currentSvgRoot) {
+    return;
+  }
+
+  paintedCountries.clear();
+
+  currentSvgRoot
+    .querySelectorAll("#ne_10m_admin_0_countries_chn path[data-country-code]")
+    .forEach((path) => {
+      path.style.fill = defaultCountryFill;
+    });
+
+  refreshLegend();
+  setActiveTool(TOOL_PAINT);
+  setBaseStatus("已清空全部填色。");
 }
 
 async function exportVisibleMapAsJpg() {
