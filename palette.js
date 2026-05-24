@@ -1,19 +1,15 @@
-const PALETTE_PRESET = [
-  { name: "珊瑚红", value: "#d96c5f" },
-  { name: "琥珀黄", value: "#d8a739" },
-  { name: "松石绿", value: "#4f9d7a" },
-  { name: "湖蓝", value: "#4b86c5" },
-  { name: "深紫灰", value: "#756783" },
-  { name: "石墨黑", value: "#4c4c52" }
-];
-
 const PALETTE_FULL = [
-  { name: "珊瑚红", value: "#d96c5f" },
+  { name: "珊瑚红", value: "#ff6b6b" },
+  { name: "蜜橙", value: "#ff9f43" },
+  { name: "暖阳黄", value: "#feca57" },
+  { name: "青苹果绿", value: "#7bed9f" },
+  { name: "湖蓝", value: "#4b86c5" },
+  { name: "薰衣草紫", value: "#a55eea" },
+  { name: "石墨黑", value: "#4c4c52" },
+  { name: "陶红", value: "#d96c5f" },
   { name: "琥珀黄", value: "#d8a739" },
   { name: "松石绿", value: "#4f9d7a" },
-  { name: "湖蓝", value: "#4b86c5" },
   { name: "深紫灰", value: "#756783" },
-  { name: "石墨黑", value: "#4c4c52" },
   { name: "砖红", value: "#b8574f" },
   { name: "赭石", value: "#b9703c" },
   { name: "金黄", value: "#d9b23d" },
@@ -23,20 +19,30 @@ const PALETTE_FULL = [
   { name: "海蓝", value: "#3f7fa8" },
   { name: "靛蓝", value: "#4d5f99" },
   { name: "酒红", value: "#8a4f61" },
-  { name: "灰褐", value: "#7a6b5d" }
+  { name: "灰褐", value: "#7a6b5d" },
+  { name: "芭比粉", value: "#ff6eb4" },
+  { name: "琥珀", value: "#e67e22" },
+  { name: "芥末黄", value: "#f1c40f" },
+  { name: "翡翠绿", value: "#27ae60" }
+  
 ];
+
+const PALETTE_PRESET = [0, 1, 2, 3, 4, 5];
 
 function createPaletteManager(options) {
   const paletteEl = options.paletteEl;
   const onActiveColorChange = options.onActiveColorChange;
   const onPaletteChange = options.onPaletteChange;
 
-  const selectablePalette = PALETTE_PRESET.map(cloneColor);
+  const selectablePalette = PALETTE_PRESET
+    .map((index) => PALETTE_FULL[index])
+    .filter(Boolean)
+    .map(cloneColor);
   const allKnownColors = new Map();
   let activeColorValue = selectablePalette[0]?.value ?? "";
   let isAddPanelOpen = false;
 
-  [...PALETTE_FULL, ...PALETTE_PRESET].forEach((color) => {
+  PALETTE_FULL.forEach((color) => {
     allKnownColors.set(normalizeColorValue(color.value), cloneColor(color));
   });
 
