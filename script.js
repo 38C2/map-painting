@@ -38,6 +38,7 @@ const paintedCountries = new Map();
 
 // 先把页面里后面要操作到的元素拿出来，避免反复查询。
 const paintToolsEl = document.getElementById("paint-tools");
+const mapToolsEl = document.getElementById("map-tools");
 const paletteEl = document.getElementById("color-palette");
 const currentColorChipEl = document.getElementById("current-color-chip");
 const currentColorLabelEl = document.getElementById("current-color-label");
@@ -139,7 +140,7 @@ function renderTools() {
 
   paintToolsEl.appendChild(paintButton);
   paintToolsEl.appendChild(eraseButton);
-  paintToolsEl.appendChild(dragButton);
+  mapToolsEl.appendChild(dragButton);
 }
 
 function renderPalette() {

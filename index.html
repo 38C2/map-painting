@@ -10,19 +10,15 @@
   <div class="app-shell">
     <aside class="toolbar">
       <div>
-        <p class="eyebrow">Step 1</p>
-        <h1>点击填色</h1>
-        <!-- <p class="toolbar-copy">先选颜色，再点击地图上的国家区域填色。</p> -->
+        <h1>地图填色</h1>
       </div>
 
+      <p id="status" class="status">正在加载地图…</p>
       <section class="panel">
-        <h2>颜色</h2>
+        <p class="eyebrow">Step 1</p>
+        <h2>填色</h2>
         <div id="paint-tools" class="paint-tools" aria-label="填色工具"></div>
         <div id="color-palette" class="palette" aria-label="颜色选择"></div>
-      </section>
-
-      <section class="panel">
-        <h2>当前颜色</h2>
         <div class="current-color-row">
           <span id="current-color-chip" class="current-color-chip" aria-hidden="true"></span>
           <span id="current-color-label" class="current-color-label"></span>
@@ -30,32 +26,9 @@
       </section>
 
       <section class="panel">
-        <h2>缩放</h2>
-        <div class="zoom-controls">
-          <input
-            id="zoom-slider"
-            class="zoom-slider"
-            type="range"
-            min="50"
-            max="500"
-            value="100"
-            aria-label="地图缩放"
-          >
-          <div class="zoom-meta">
-            <p id="zoom-label" class="zoom-label">100%</p>
-            <button id="zoom-reset-button" class="tool-button zoom-reset-button" type="button">重置缩放</button>
-          </div>
-        </div>
-      </section>
-
-      <section class="panel">
-        <h2>导出</h2>
-        <button id="export-jpg-button" class="tool-button" type="button">保存 JPG</button>
-      </section>
-
-      <section class="panel">
+        <p class="eyebrow">Step 2</p>
+        <h2>图例</h2>
         <div class="toolbar-section-heading">
-          <h2>图例设置</h2>
           <label class="toolbar-toggle">
             <input id="legend-plain-toggle" type="checkbox">
             <span>隐藏底板</span>
@@ -80,7 +53,31 @@
         <div id="legend-editor-root" class="legend-editor-list" aria-label="图例文本编辑"></div>
       </section>
 
-      <p id="status" class="status">正在加载地图…</p>
+      <section class="panel">
+        <p class="eyebrow">Step 3</p>
+        <h2>保存</h2>
+        <button id="export-jpg-button" class="tool-button" type="button">保存 JPG</button>
+      </section>
+
+      <section class="panel">
+        <h2>调整地图</h2>
+        <div id="map-tools" class="paint-tools" aria-label="地图调整工具"></div>
+        <div class="zoom-controls">
+          <input
+            id="zoom-slider"
+            class="zoom-slider"
+            type="range"
+            min="50"
+            max="500"
+            value="100"
+            aria-label="地图缩放"
+          >
+          <div class="zoom-meta">
+            <p id="zoom-label" class="zoom-label">100%</p>
+            <button id="zoom-reset-button" class="tool-button zoom-reset-button" type="button">重置缩放</button>
+          </div>
+        </div>
+      </section>
     </aside>
 
     <main class="map-stage">
