@@ -10,7 +10,8 @@ const palette = [
 
 const defaultCountryFill = "#e8e1d5";
 const countryStroke = "#2b2b2b";
-const mapSvgPath = "./worldmap.svg";
+const mapSvgPath = "./worldmap-done.svg";
+const countryCodeCsvPath = "./country_code.csv";
 // const zoomStep = 0.25;
 const minMapScale = 0.5;
 const maxMapScale = 5;
@@ -32,9 +33,11 @@ let dragStartX = 0;
 let dragStartY = 0;
 let dragStartScrollLeft = 0;
 let dragStartScrollTop = 0;
+let baseStatusText = "正在加载地图…";
 
 // 这里记录“每个区域当前用了什么颜色”，给自动图例使用。
 const paintedCountries = new Map();
+const countryNamesByCode = new Map();
 
 // 先把页面里后面要操作到的元素拿出来，避免反复查询。
 const paintToolsEl = document.getElementById("paint-tools");
@@ -91,16 +94,16 @@ function setActiveTool(tool) {
 
 function updateToolStatus() {
   if (activeTool === TOOL_DRAG) {
-    statusEl.textContent = "当前工具：拖动";
+    setBaseStatus("当前工具：拖动");
     return;
   }
 
   if (activeTool === TOOL_ERASE) {
-    statusEl.textContent = "当前工具：擦除";
+    setBaseStatus("当前工具：擦除");
     return;
   }
 
-  statusEl.textContent = `当前工具：填色 ${activeColor.name}`;
+  setBaseStatus(`当前工具：填色 ${activeColor.name}`);
 }
 
 function renderTools() {
@@ -186,6 +189,15 @@ function refreshLegend() {
   legendManager.render(usedColors);
 }
 
+function setBaseStatus(text) {
+  baseStatusText = text;
+  statusEl.textContent = text;
+}
+
+function showHoverStatus(text) {
+  statusEl.textContent = text;
+}
+
 // 缩放
 function initZoomControls() {
   zoomResetButtonEl.addEventListener("click", () => {
@@ -259,15 +271,15 @@ function bindExportActions() {
   exportJpgButtonEl.addEventListener("click", async () => {
     try {
       await exportVisibleMapAsJpg();
-      statusEl.textContent = "已导出 JPG。";
+      setBaseStatus("已导出 JPG。");
     } catch (error) {
       if (error && error.name === "AbortError") {
-        statusEl.textContent = "已取消导出。";
+        setBaseStatus("已取消导出。");
         return;
       }
 
       console.error("Failed to export JPG:", error);
-      statusEl.textContent = "导出 JPG 失败。";
+      setBaseStatus("导出 JPG 失败。");
     }
   });
 }
@@ -512,10 +524,18 @@ async function saveBlobAsJpg(blob, suggestedName) {
 }
 
 async function initMap() {
-  statusEl.textContent = "正在加载地图文件…";
+  setBaseStatus("正在加载地图文件…");
 
   try {
-    const response = await fetch(mapSvgPath);
+    const [countryLookup, response] = await Promise.all([
+      loadCountryNameLookup(),
+      fetch(mapSvgPath),
+    ]);
+
+    countryNamesByCode.clear();
+    countryLookup.forEach((name, code) => {
+      countryNamesByCode.set(code, name);
+    });
 
     if (!response.ok) {
       throw new Error(`HTTP ${response.status}`);
@@ -525,7 +545,7 @@ async function initMap() {
     mountSvg(svgText);
   } catch (error) {
     mapContainerEl.innerHTML = "";
-    statusEl.textContent = "地图加载失败。请用本地静态服务器访问，并确认“worldmap.svg”存在。";
+    setBaseStatus("地图加载失败。请用本地静态服务器访问，并确认资源文件存在。");
     console.error("Failed to load SVG map:", error);
   }
 }
@@ -539,7 +559,7 @@ function mountSvg(svgText) {
   const svgRoot = mapContainerEl.querySelector("svg");
 
   if (!svgRoot) {
-    statusEl.textContent = "地图加载失败。读取到的文件里没有 SVG 内容。";
+    setBaseStatus("地图加载失败。读取到的文件里没有 SVG 内容。");
     return;
   }
 
@@ -553,20 +573,41 @@ function bindMapInteractions(svgRoot) {
   const countriesGroup = svgRoot.getElementById("ne_10m_admin_0_countries_chn");
 
   if (!countriesGroup) {
-    statusEl.textContent = "没有找到国家图层。";
+    setBaseStatus("没有找到国家图层。");
     return;
   }
 
   // 地图里的每个国家区域，目前基本都是一个 path。
   const countryPaths = Array.from(countriesGroup.querySelectorAll("path"));
+  let interactiveCount = 0;
 
-  countryPaths.forEach((path, index) => {
+  countryPaths.forEach((path) => {
+    const countryCode = (path.id || "").trim().toUpperCase();
+    const countryName = countryNamesByCode.get(countryCode);
+
+    if (!countryName) {
+      path.style.pointerEvents = "none";
+      return;
+    }
+
+    interactiveCount += 1;
+
     // 先给每个区域一个初始样式，让它看起来像可点击对象。
-    path.dataset.countryIndex = String(index + 1);
+    path.dataset.countryCode = countryCode;
+    path.dataset.countryName = countryName;
     path.style.fill = defaultCountryFill;
     path.style.stroke = countryStroke;
     path.style.strokeWidth = "0.3";
     path.style.transition = "fill 120ms ease, opacity 120ms ease, stroke 120ms ease";
+    path.style.cursor = "pointer";
+
+    path.addEventListener("mouseenter", () => {
+      showHoverStatus(countryName);
+    });
+
+    path.addEventListener("mouseleave", () => {
+      statusEl.textContent = baseStatusText;
+    });
 
     path.addEventListener("click", () => {
       if (activeTool === TOOL_DRAG) {
@@ -575,9 +616,9 @@ function bindMapInteractions(svgRoot) {
 
       if (activeTool === TOOL_ERASE) {
         path.style.fill = defaultCountryFill;
-        paintedCountries.delete(path.dataset.countryIndex);
+        paintedCountries.delete(countryCode);
         refreshLegend();
-        statusEl.textContent = `已擦除：区域 ${index + 1}`;
+        setBaseStatus(`已擦除：${countryName}`);
         return;
       }
 
@@ -585,13 +626,87 @@ function bindMapInteractions(svgRoot) {
       path.style.fill = activeColor.value;
 
       // 同时把颜色写入状态，图例就可以根据状态自动生成。
-      paintedCountries.set(path.dataset.countryIndex, activeColor.value);
+      paintedCountries.set(countryCode, activeColor.value);
       refreshLegend();
 
-      // 这里先显示“区域序号”，后面如果你要国家名，可以再做映射。
-      statusEl.textContent = `已填色：区域 ${index + 1} -> ${activeColor.name}`;
+      setBaseStatus(`已填色：${countryName} -> ${activeColor.name}`);
     });
   });
 
-  statusEl.textContent = `地图加载完成，共绑定 ${countryPaths.length} 个可点击区域。`;
+  setBaseStatus(`地图加载完成，共绑定 ${interactiveCount} 个可点击区域。`);
+}
+
+async function loadCountryNameLookup() {
+  const response = await fetch(countryCodeCsvPath);
+
+  if (!response.ok) {
+    throw new Error(`Failed to load CSV: HTTP ${response.status}`);
+  }
+
+  const csvText = await response.text();
+  const rows = csvText
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter(Boolean);
+
+  if (rows.length < 2) {
+    return new Map();
+  }
+
+  const header = parseCsvLine(rows[0]);
+  const codeIndex = header.indexOf("code");
+  const cnIndex = header.indexOf("cn");
+
+  if (codeIndex === -1 || cnIndex === -1) {
+    throw new Error("CSV 缺少 code 或 cn 列。");
+  }
+
+  const lookup = new Map();
+
+  rows.slice(1).forEach((line) => {
+    const fields = parseCsvLine(line);
+    const code = (fields[codeIndex] || "").trim().toUpperCase();
+    const cnName = (fields[cnIndex] || "").trim();
+
+    if (!code || !cnName) {
+      return;
+    }
+
+    lookup.set(code, cnName);
+  });
+
+  return lookup;
+}
+
+function parseCsvLine(line) {
+  const fields = [];
+  let current = "";
+  let inQuotes = false;
+
+  for (let index = 0; index < line.length; index += 1) {
+    const character = line[index];
+    const nextCharacter = line[index + 1];
+
+    if (character === "\"") {
+      if (inQuotes && nextCharacter === "\"") {
+        current += "\"";
+        index += 1;
+        continue;
+      }
+
+      inQuotes = !inQuotes;
+      continue;
+    }
+
+    if (character === "," && !inQuotes) {
+      fields.push(current);
+      current = "";
+      continue;
+    }
+
+    current += character;
+  }
+
+  fields.push(current);
+  return fields;
 }

@@ -1,0 +1,234 @@
+code,cn,en
+ID,印尼,Indonesia
+MY,马来西亚,Malaysia
+CL,智利,Chile
+BO,玻利维亚,Bolivia
+PE,秘鲁,Peru
+AR,阿根廷,Argentina
+CY,塞浦路斯,Cyprus
+IN,印度,India
+CN,中国,China
+IL,以色列,Israel
+PS,巴勒斯坦,Palestine
+LB,黎巴嫩,Lebanon
+ET,埃塞俄比亚,Ethiopia
+SS,南苏丹,South Sudan
+SO,索马里,Somalia
+MW,马拉维,Malawi
+TZ,坦桑尼亚,Tanzania
+SY,叙利亚,Syria
+FR,法国,France
+SR,苏里南,Suriname
+GY,圭亚那,Guyana
+KR,韩国,South Korea
+KP,朝鲜,North Korea
+EH,西撒哈拉,Western Sahara
+CR,哥斯达黎加,Costa Rica
+NI,尼加拉瓜,Nicaragua
+CG,刚果（布）,Congo
+CD,刚果（金）,DR Congo
+BT,不丹,Bhutan
+UA,乌克兰,Ukraine
+BY,白俄罗斯,Belarus
+NA,纳米比亚,Namibia
+ZA,南非,South Africa
+MF,法属圣马丁,Saint Martin
+SX,荷属圣马丁,Sint Maarten
+OM,阿曼,Oman
+UZ,乌兹别克斯坦,Uzbekistan
+KZ,哈萨克斯坦,Kazakhstan
+TJ,塔吉克斯坦,Tajikistan
+LT,立陶宛,Lithuania
+BR,巴西,Brazil
+UY,乌拉圭,Uruguay
+MN,蒙古,Mongolia
+RU,俄罗斯,Russia
+CZ,捷克,Czechia
+DE,德国,Germany
+EE,爱沙尼亚,Estonia
+LV,拉脱维亚,Latvia
+NO,挪威,Norway
+SE,瑞典,Sweden
+FI,芬兰,Finland
+VN,越南,Vietnam
+KH,柬埔寨,Cambodia
+LU,卢森堡,Luxembourg
+AE,阿联酋,UAE
+BE,比利时,Belgium
+GE,格鲁吉亚,Georgia
+MK,北马其顿,North Macedonia
+AL,阿尔巴尼亚,Albania
+AZ,阿塞拜疆,Azerbaijan
+RS,塞尔维亚,Serbia
+TR,土耳其,Turkey
+ES,西班牙,Spain
+MA,摩洛哥,Morocco
+LA,老挝,Laos
+KG,吉尔吉斯斯坦,Kyrgyzstan
+AM,亚美尼亚,Armenia
+DK,丹麦,Denmark
+LY,利比亚,Libya
+TN,突尼斯,Tunisia
+RO,罗马尼亚,Romania
+HU,匈牙利,Hungary
+SK,斯洛伐克,Slovakia
+PL,波兰,Poland
+IE,爱尔兰,Ireland
+GB,英国,UK
+GR,希腊,Greece
+ZM,赞比亚,Zambia
+SL,塞拉利昂,Sierra Leone
+GN,几内亚,Guinea
+LR,利比里亚,Liberia
+CF,中非,Central Africa
+SD,苏丹,Sudan
+DJ,吉布提,Djibouti
+ER,厄立特里亚,Eritrea
+AT,奥地利,Austria
+IQ,伊拉克,Iraq
+IT,意大利,Italy
+CH,瑞士,Switzerland
+IR,伊朗,Iran
+NL,荷兰,Netherlands
+LI,列支敦士登,Liechtenstein
+CI,科特迪瓦,Côte d'Ivoire
+ML,马里,Mali
+SN,塞内加尔,Senegal
+NG,尼日利亚,Nigeria
+BJ,贝宁,Benin
+AO,安哥拉,Angola
+HR,克罗地亚,Croatia
+SI,斯洛文尼亚,Slovenia
+QA,卡塔尔,Qatar
+SA,沙特阿拉伯,Saudi Arabia
+BW,博茨瓦纳,Botswana
+ZW,津巴布韦,Zimbabwe
+PK,巴基斯坦,Pakistan
+BG,保加利亚,Bulgaria
+TH,泰国,Thailand
+SM,圣马力诺,San Marino
+HT,海地,Haiti
+DO,多米尼加,Dominican Republic
+TD,乍得,Chad
+KW,科威特,Kuwait
+SV,萨尔瓦多,El Salvador
+GT,危地马拉,Guatemala
+TL,东帝汶,Timor-Leste
+BN,文莱,Brunei
+MC,摩纳哥,Monaco
+DZ,阿尔及利亚,Algeria
+MZ,莫桑比克,Mozambique
+SZ,斯威士兰,Eswatini
+BI,布隆迪,Burundi
+RW,卢旺达,Rwanda
+MM,缅甸,Myanmar
+BD,孟加拉国,Bangladesh
+AD,安道尔,Andorra
+AF,阿富汗,Afghanistan
+ME,黑山,Montenegro
+BA,波黑,Bosnia
+UG,乌干达,Uganda
+CU,古巴,Cuba
+HN,洪都拉斯,Honduras
+EC,厄瓜多尔,Ecuador
+CO,哥伦比亚,Colombia
+PY,巴拉圭,Paraguay
+PT,葡萄牙,Portugal
+MD,摩尔多瓦,Moldova
+TM,土库曼斯坦,Turkmenistan
+JO,约旦,Jordan
+NP,尼泊尔,Nepal
+LS,莱索托,Lesotho
+CM,喀麦隆,Cameroon
+GA,加蓬,Gabon
+NE,尼日尔,Niger
+BF,布基纳法索,Burkina Faso
+TG,多哥,Togo
+GH,加纳,Ghana
+GW,几内亚比绍,Guinea-Bissau
+GI,直布罗陀,Gibraltar
+US,美国,America
+CA,加拿大,Canada
+MX,墨西哥,Mexico
+BZ,伯利兹,Belize
+PA,巴拿马,Panama
+VE,委内瑞拉,Venezuela
+PG,巴布亚新几内亚,Papua New Guinea
+EG,埃及,Egypt
+YE,也门,Yemen
+MR,毛里塔尼亚,Mauritania
+KE,肯尼亚,Kenya
+GQ,赤道几内亚,Equatorial Guinea
+GM,冈比亚,Gambia
+VA,梵蒂冈,Vatican City
+AQ,南极洲,Antarctica
+AU,澳大利亚,Australia
+GL,格林兰,Greenland
+NZ,新西兰,New Zealand
+NC,新喀里多尼亚,New Caledonia
+MG,马达加斯加,Madagascar
+PH,菲律宾,Philippines
+LK,斯里兰卡,Sri Lanka
+CW,库拉索,Curaçao
+AW,阿鲁巴,Aruba
+BS,巴哈马,Bahamas
+TC,特克斯和凯科斯群岛,Turks and Caicos Islands
+JP,日本,Japan
+PM,圣皮埃尔和密克隆群岛,Saint Pierre and Miquelon
+IS,冰岛,Iceland
+PN,皮特凯恩群岛,Pitcairn
+PF,法属波利尼西亚,French Polynesia
+SC,塞舌尔,Seychelles
+MH,马绍尔群岛,Marshall Islands
+TT,特立尼达和多巴哥,Trinidad and Tobago
+GD,格林纳达,Grenada
+VC,圣文森特和格林纳丁斯,Saint Vincent and the Grenadines
+BB,巴巴多斯,Barbados
+LC,圣卢西亚,Saint Lucia
+DM,多米尼克,Dominica
+MS,蒙塞拉特岛,Montserrat
+AG,安提瓜和巴布达,Antigua and Barbuda
+KN,圣基茨和尼维斯,Saint Kitts and Nevis
+VI,美属维尔京群岛,Virgin Islands (U.S.)
+BL,圣巴泰勒米,Saint Barthélemy
+PR,波多黎各,Puerto Rico
+AI,安圭拉,Anguilla
+VG,英属维尔京群岛,Virgin Islands (British)
+JM,牙买加,Jamaica
+KY,开曼群岛,Cayman Islands
+BM,百慕大,Bermuda
+HM,赫德岛和麦克唐纳群岛,Heard Island and McDonald Islands
+SH,圣赫勒拿,Saint Helena
+MU,毛里求斯,Mauritius
+KM,科摩罗,Comoros
+ST,圣多美和普林西比,Sao Tome and Principe
+CV,佛得角,Cabo Verde
+MT,马耳他,Malta
+JE,泽西岛,Jersey
+GG,格恩西岛,Guernsey
+IM,马恩岛,Isle of Man
+AX,奥兰岛,Åland Islands
+FO,法罗群岛,Faroe Islands
+CC,科科斯群岛,Cocos Islands
+IO,英属印度洋领地,British Indian Ocean Territory
+SG,新加坡,Singapore
+NF,诺福克岛,Norfolk Island
+CK,库克群岛,Cook Islands
+TO,汤加,Tonga
+WF,瓦利斯和富图纳群岛,Wallis and Futuna
+WS,萨摩亚,Samoa
+SB,所罗门群岛,Solomon Islands
+TV,图瓦卢,Tuvalu
+MV,马尔代夫,Maldives
+NR,瑙鲁,Nauru
+FM,密克罗尼西亚联邦,Micronesia
+GS,南乔治亚岛和南桑威奇群岛,South Georgia and the South Sandwich Islands
+FK,福克兰群岛,Falkland Islands
+VU,瓦努阿图,Vanuatu
+NU,纽埃,Niue
+AS,美属萨摩亚,American Samoa
+PW,帕劳,Palau
+GU,关岛,Guam
+MP,北马里亚纳群岛,Northern Mariana Islands
+BH,巴林,Bahrain
+FJ,斐济,Fiji
